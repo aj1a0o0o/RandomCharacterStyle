@@ -386,3 +386,203 @@ function()
     this.probabilityEdit.text =
         UI.DEFAULT_PROBABILITY;
 };
+//==================================================
+// Show Add Button
+//==================================================
+
+UI.StyleRow.prototype.showAddButton =
+function()
+{
+    if(this.addButton)
+    {
+        this.addButton.visible = true;
+        this.addButton.enabled = true;
+    }
+};
+
+
+//==================================================
+// Hide Add Button
+//==================================================
+
+UI.StyleRow.prototype.hideAddButton =
+function()
+{
+    if(this.addButton)
+    {
+        this.addButton.visible = false;
+        this.addButton.enabled = false;
+    }
+};
+
+
+//==================================================
+// Show Remove Button
+//==================================================
+
+UI.StyleRow.prototype.showRemoveButton =
+function()
+{
+    if(this.removeButton)
+    {
+        this.removeButton.visible = true;
+        this.removeButton.enabled = true;
+    }
+};
+
+
+//==================================================
+// Hide Remove Button
+//==================================================
+
+UI.StyleRow.prototype.hideRemoveButton =
+function()
+{
+    if(this.removeButton)
+    {
+        this.removeButton.visible = false;
+        this.removeButton.enabled = false;
+    }
+};
+
+
+//==================================================
+// Set Add Button Visible
+//==================================================
+
+UI.StyleRow.prototype.setAddButtonVisible =
+function(flag)
+{
+    if(flag)
+    {
+        this.showAddButton();
+    }
+    else
+    {
+        this.hideAddButton();
+    }
+};
+
+
+//==================================================
+// Set Remove Button Visible
+//==================================================
+
+UI.StyleRow.prototype.setRemoveButtonVisible =
+function(flag)
+{
+    if(flag)
+    {
+        this.showRemoveButton();
+    }
+    else
+    {
+        this.hideRemoveButton();
+    }
+};
+
+
+//==================================================
+// Focus Probability
+//==================================================
+
+UI.StyleRow.prototype.focusProbability =
+function()
+{
+    if(this.probabilityEdit)
+    {
+        this.probabilityEdit.active = true;
+    }
+};
+
+
+//==================================================
+// Remove Row
+//==================================================
+
+UI.StyleRow.prototype.remove =
+function()
+{
+    if(this.group)
+    {
+        this.group.parent.remove(this.group);
+        this.group = null;
+    }
+};
+
+
+//==================================================
+// Destroy
+//==================================================
+
+UI.StyleRow.prototype.destroy =
+function()
+{
+    this.group = null;
+
+    this.styleDropdown = null;
+
+    this.probabilityEdit = null;
+
+    this.removeButton = null;
+
+    this.addButton = null;
+
+    this.parent = null;
+
+    this.styleList = null;
+};
+
+
+//==================================================
+// Is Valid
+//==================================================
+
+UI.StyleRow.prototype.isValid =
+function()
+{
+    if(this.group == null)
+    {
+        return false;
+    }
+
+    if(this.styleDropdown == null)
+    {
+        return false;
+    }
+
+    if(this.probabilityEdit == null)
+    {
+        return false;
+    }
+
+    return true;
+};
+
+
+//==================================================
+// Refresh
+//==================================================
+
+UI.StyleRow.prototype.refresh =
+function()
+{
+    if(this.group)
+    {
+        this.group.layout.layout(true);
+    }
+};
+
+
+//==================================================
+// Debug
+//==================================================
+
+UI.StyleRow.prototype.toString =
+function()
+{
+    return "[StyleRow] "
+        + this.getStyle()
+        + " : "
+        + this.getProbability();
+};
