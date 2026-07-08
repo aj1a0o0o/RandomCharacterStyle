@@ -157,3 +157,149 @@ function ()
 {
     return this.window.getScope();
 };
+
+//==================================================
+// Validate
+//==================================================
+
+UI.Controller.prototype.validate =
+function ()
+{
+    if (!this.container.validate())
+    {
+        return false;
+    }
+
+    if (this.container.getTotalProbability() > 1)
+    {
+        alert(UI.STRING.TOTAL + " > 1");
+
+        return false;
+    }
+
+    return true;
+};
+
+
+//==================================================
+// Get Data
+//==================================================
+
+UI.Controller.prototype.getData =
+function ()
+{
+    return this.container.getData();
+};
+
+
+//==================================================
+// Set Running
+//==================================================
+
+UI.Controller.prototype.setRunning =
+function ()
+{
+    this.isRunning = true;
+
+    this.container.disable();
+
+    this.window.disableOK();
+};
+
+
+//==================================================
+// Set Idle
+//==================================================
+
+UI.Controller.prototype.setIdle =
+function ()
+{
+    this.isRunning = false;
+
+    this.container.enable();
+
+    this.refresh();
+};
+
+
+//==================================================
+// Apply
+//==================================================
+
+UI.Controller.prototype.apply =
+function ()
+{
+    if (this.isRunning)
+    {
+        return;
+    }
+
+    if (!this.validate())
+    {
+        return;
+    }
+
+    this.setRunning();
+
+    try
+    {
+        //--------------------------------------------------
+        // Engine
+        //--------------------------------------------------
+
+        /*
+            后续正式开发 Engine 时：
+
+            var engine = new RandomEngine();
+
+            engine.run(
+                this.getScope(),
+                this.getData()
+            );
+        */
+
+        alert(
+            "Apply Success\n\n" +
+            "Scope : " + this.getScope() +
+            "\nRows : " + this.container.getCount()
+        );
+
+    }
+    catch (e)
+    {
+        alert(e);
+    }
+
+    this.setIdle();
+};
+
+
+//==================================================
+// Destroy
+//==================================================
+
+UI.Controller.prototype.destroy =
+function ()
+{
+    if (this.container)
+    {
+        this.container.destroy();
+    }
+
+    this.container = null;
+
+    this.window = null;
+
+    this.isRunning = false;
+};
+
+
+//==================================================
+// Debug
+//==================================================
+
+UI.Controller.prototype.toString =
+function ()
+{
+    return "[UI.Controller]";
+};
