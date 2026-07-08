@@ -111,7 +111,10 @@ function(refresh)
         this.onRowAdded(row);
     }
 
-    return row;
+return {
+    index: this.rows.length - 1,
+    row: row
+};
 };
 
 //==================================================
@@ -280,6 +283,11 @@ function()
 //==================================================
 // Set Data
 //==================================================
+
+if(this.rows.length > 0)
+{
+    this.clear();
+}
 
 UI.RowContainer.prototype.setData =
 function(data)
