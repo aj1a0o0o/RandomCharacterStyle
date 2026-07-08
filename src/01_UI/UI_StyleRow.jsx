@@ -176,3 +176,213 @@ function()
 
     this.addButton.enabled = false;
 };
+//==================================================
+// Get Style
+//==================================================
+
+UI.StyleRow.prototype.getStyle =
+function()
+{
+    if(!this.styleDropdown)
+    {
+        return "";
+    }
+
+    if(this.styleDropdown.selection == null)
+    {
+        return "";
+    }
+
+    return this.styleDropdown.selection.text;
+};
+
+
+//==================================================
+// Set Style
+//==================================================
+
+UI.StyleRow.prototype.setStyle =
+function(styleName)
+{
+    var i;
+
+    if(!this.styleDropdown)
+    {
+        return;
+    }
+
+    for(i = 0; i < this.styleDropdown.items.length; i++)
+    {
+        if(this.styleDropdown.items[i].text == styleName)
+        {
+            this.styleDropdown.selection = i;
+            return;
+        }
+    }
+};
+
+
+//==================================================
+// Get Probability
+//==================================================
+
+UI.StyleRow.prototype.getProbability =
+function()
+{
+    var value;
+
+    value = parseFloat(
+        this.probabilityEdit.text
+    );
+
+    if(isNaN(value))
+    {
+        return 0;
+    }
+
+    if(value < 0)
+    {
+        value = 0;
+    }
+
+    if(value > 1)
+    {
+        value = 1;
+    }
+
+    return value;
+};
+
+
+//==================================================
+// Set Probability
+//==================================================
+
+UI.StyleRow.prototype.setProbability =
+function(value)
+{
+    if(value == undefined)
+    {
+        value = 0;
+    }
+
+    if(isNaN(value))
+    {
+        value = 0;
+    }
+
+    if(value < 0)
+    {
+        value = 0;
+    }
+
+    if(value > 1)
+    {
+        value = 1;
+    }
+
+    this.probabilityEdit.text =
+        value.toString();
+};
+
+
+//==================================================
+// Validate Probability
+//==================================================
+
+UI.StyleRow.prototype.validateProbability =
+function()
+{
+    var txt;
+
+    var value;
+
+    txt = this.probabilityEdit.text;
+
+    txt = txt.replace(",", ".");
+
+    value = parseFloat(txt);
+
+    if(isNaN(value))
+    {
+        this.probabilityEdit.text = "0";
+        return false;
+    }
+
+    if(value < 0)
+    {
+        value = 0;
+    }
+
+    if(value > 1)
+    {
+        value = 1;
+    }
+
+    this.probabilityEdit.text =
+        value.toString();
+
+    return true;
+};
+
+
+//==================================================
+// Get Data
+//==================================================
+
+UI.StyleRow.prototype.getData =
+function()
+{
+    var data = {};
+
+    data.style =
+        this.getStyle();
+
+    data.probability =
+        this.getProbability();
+
+    return data;
+};
+
+
+//==================================================
+// Set Data
+//==================================================
+
+UI.StyleRow.prototype.setData =
+function(data)
+{
+    if(data == null)
+    {
+        return;
+    }
+
+    if(data.style != undefined)
+    {
+        this.setStyle(data.style);
+    }
+
+    if(data.probability != undefined)
+    {
+        this.setProbability(
+            data.probability
+        );
+    }
+};
+
+
+//==================================================
+// Reset
+//==================================================
+
+UI.StyleRow.prototype.reset =
+function()
+{
+    if(this.styleDropdown.items.length > 0)
+    {
+        this.styleDropdown.selection = 0;
+    }
+
+    this.probabilityEdit.text =
+        UI.DEFAULT_PROBABILITY;
+};
