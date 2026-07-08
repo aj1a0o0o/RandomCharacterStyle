@@ -6,7 +6,7 @@ UI_Config.jsx
 UI 常量配置
 Adobe InDesign ExtendScript (ES3)
 
-Author : Lya Peng
+Author : aj1a0o0o
 Version : 1.0
 ------------------------------------------------------------
 */
@@ -82,7 +82,7 @@ UI.SCOPE_SELECTION = 2;
 // Default Probability
 //==================================================
 
-UI.DEFAULT_PROBABILITY = "0.0";
+UI.DEFAULT_PROBABILITY = "0";
 
 
 //==================================================
