@@ -32,7 +32,11 @@ UI.Window = function ()
 
     this.headerGroup = null;
 
-    this.rowContainer = null;
+// ScriptUI Group
+this.rowContainerGroup = null;
+
+// RowContainer Object
+this.rowContainer = null;
 
     this.totalGroup = null;
 
@@ -194,14 +198,29 @@ function ()
 
     //------------------------------------------------
 
-    this.rowContainer =
-        this.rowPanel.add("group");
+//------------------------------------------------
 
-    this.rowContainer.orientation =
-        "column";
+// ScriptUI Group
 
-    this.rowContainer.alignChildren =
-        "fill";
+this.rowContainerGroup =
+    this.rowPanel.add("group");
+
+this.rowContainerGroup.orientation =
+    "column";
+
+this.rowContainerGroup.alignChildren =
+    "fill";
+
+//------------------------------------------------
+
+// UI.RowContainer
+
+this.rowContainer =
+    new UI.RowContainer(
+        this.rowContainerGroup
+    );
+
+this.rowContainer.create();
 };
 
 //==================================================
@@ -224,7 +243,7 @@ function ()
         this.totalGroup.add(
             "statictext",
             undefined,
-            UI.STRING.TOTAL + " : 0.00"
+            UI.STRING.TOTAL + " : 0"
         );
 };
 
@@ -299,4 +318,79 @@ UI.Window.prototype.close =
 function ()
 {
     this.window.close();
+};
+//==================================================
+// Get Scope
+//==================================================
+
+UI.Window.prototype.getScope =
+function()
+{
+    return this.scopeDropdown.selection.index;
+};
+
+
+//==================================================
+// Set Scope
+//==================================================
+
+UI.Window.prototype.setScope =
+function(index)
+{
+    if(index >= 0 &&
+       index < this.scopeDropdown.items.length)
+    {
+        this.scopeDropdown.selection = index;
+    }
+};
+
+
+//==================================================
+// Set Total
+//==================================================
+
+UI.Window.prototype.setTotal =
+function(total)
+{
+    var txt;
+
+    txt = total.toFixed(2);
+
+    this.totalLabel.text =
+        UI.STRING.TOTAL +
+        " : " +
+        txt;
+};
+
+
+//==================================================
+// Enable OK
+//==================================================
+
+UI.Window.prototype.enableOK =
+function()
+{
+    this.okButton.enabled = true;
+};
+
+
+//==================================================
+// Disable OK
+//==================================================
+
+UI.Window.prototype.disableOK =
+function()
+{
+    this.okButton.enabled = false;
+};
+
+
+//==================================================
+// Get RowContainer
+//==================================================
+
+UI.Window.prototype.getRowContainer =
+function()
+{
+    return this.rowContainer;
 };
