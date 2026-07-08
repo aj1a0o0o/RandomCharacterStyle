@@ -32,13 +32,22 @@ UI.RowContainer = function(parent)
 
     this.group = null;
 
+    this.contentGroup = null;
+
     this.rows = [];
 
     // Event Callback
-    this.onRowAdded = null;
-    this.onRowRemoved = null;
-    this.onChanged = null;
+this.onRowAdded = null;
+
+this.onRowRemoved = null;
+
+// 任意一行内容变化
+this.onChanged = null;
+
+// 总概率发生变化
+this.onTotalChanged = null;
 };
+
 
 //==================================================
 // Create
@@ -56,6 +65,26 @@ function()
     this.group.spacing = UI.SPACING;
 
     this.group.margins = 0;
+
+    //--------------------------------------------------
+// Content Group
+//--------------------------------------------------
+
+this.contentGroup =
+    this.group.add("group");
+
+this.contentGroup.orientation =
+    "column";
+
+this.contentGroup.alignChildren =
+    "fill";
+
+this.contentGroup.spacing =
+    UI.SPACING;
+
+this.contentGroup.margins = 0;
+
+    //--------------------------------------------------
 
     this.createDefaultRows();
 
@@ -93,9 +122,47 @@ function(refresh)
         return null;
     }
 
-    row = new UI.StyleRow(this.group);
+row = new UI.StyleRow(this.contentGroup);
 
     row.create();
+
+    //--------------------------------------------------
+
+var self = this;
+
+row.onAdd = function()
+{
+    self.addRow();
+};
+
+row.onRemove = function(sender)
+{
+    var i;
+
+    for(i = 0; i < self.rows.length; i++)
+    {
+        if(self.rows[i] == sender)
+        {
+            self.removeRow(i);
+            break;
+        }
+    }
+};
+
+row.onChanged = function()
+{
+    if(self.onChanged != null)
+    {
+        self.onChanged();
+    }
+
+    if(self.onTotalChanged != null)
+    {
+        self.onTotalChanged(
+            self.getTotalProbability()
+        );
+    }
+};
 
     this.rows.push(row);
 
@@ -153,6 +220,18 @@ function(index)
     {
         this.onRowRemoved(index);
     }
+
+    if(this.onChanged != null)
+{
+    this.onChanged();
+}
+
+if(this.onTotalChanged != null)
+{
+    this.onTotalChanged(
+        this.getTotalProbability()
+    );
+}
 };
 
 //==================================================
@@ -389,6 +468,19 @@ function()
     }
 
     this.refreshLayout();
+
+this.refreshButtons();
+
+if(this.onChanged != null)
+{
+    this.onChanged();
+}
+
+if(this.onTotalChanged != null)
+{
+    this.onTotalChanged(0);
+}
+    
 };
 
 
