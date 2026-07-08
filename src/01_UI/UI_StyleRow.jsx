@@ -7,7 +7,7 @@ UI_StyleRow.jsx
 
 Adobe InDesign ExtendScript ES3
 
-Author : Lya Peng
+Author : aj1a0o0o
 Version : 1.0
 ------------------------------------------------------------
 */
@@ -21,11 +21,9 @@ if (typeof UI === "undefined")
 // StyleRow
 //==================================================
 
-UI.StyleRow = function(parent, styleList)
+UI.StyleRow = function(parent)
 {
     this.parent = parent;
-
-    this.styleList = styleList || [];
 
     this.group = null;
 
@@ -104,12 +102,14 @@ UI.StyleRow.prototype.create = function()
 UI.StyleRow.prototype.createDropdown =
 function()
 {
-    this.styleDropdown =
-        this.group.add(
-            "dropdownlist",
-            undefined,
-            this.styleList
-        );
+var list = UI.getCharacterStyleNames(app.activeDocument);
+
+this.styleDropdown =
+    this.group.add(
+        "dropdownlist",
+        undefined,
+        list
+    );
 
     this.styleDropdown.preferredSize.width =
         UI.STYLE_WIDTH;
