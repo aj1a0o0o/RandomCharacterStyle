@@ -281,8 +281,23 @@ function(value)
         value = 1;
     }
 
-    this.probabilityEdit.text =
-        value.toString();
+var txt = value.toString();
+
+if(txt.indexOf(".") >= 0)
+{
+    while(txt.charAt(txt.length - 1) == "0")
+    {
+        txt = txt.substring(0, txt.length - 1);
+    }
+
+    if(txt.charAt(txt.length - 1) == ".")
+    {
+        txt = txt.substring(0, txt.length - 1);
+    }
+}
+
+this.probabilityEdit.text = txt;
+ 
 };
 
 
@@ -303,26 +318,40 @@ function()
 
     value = parseFloat(txt);
 
-    if(isNaN(value))
+if(isNaN(value))
+{
+    this.probabilityEdit.text = "0";
+    return false;
+}
+
+if(value < 0)
+{
+    value = 0;
+}
+
+if(value > 1)
+{
+    value = 1;
+}
+
+txt = value.toString();
+
+if(txt.indexOf(".") >= 0)
+{
+    while(txt.charAt(txt.length - 1) == "0")
     {
-        this.probabilityEdit.text = "0";
-        return false;
+        txt = txt.substring(0, txt.length - 1);
     }
 
-    if(value < 0)
+    if(txt.charAt(txt.length - 1) == ".")
     {
-        value = 0;
+        txt = txt.substring(0, txt.length - 1);
     }
+}
 
-    if(value > 1)
-    {
-        value = 1;
-    }
+this.probabilityEdit.text = txt;
 
-    this.probabilityEdit.text =
-        value.toString();
-
-    return true;
+return true;
 };
 
 
