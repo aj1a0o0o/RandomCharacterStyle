@@ -34,6 +34,17 @@ UI.StyleRow = function(parent)
     this.removeButton = null;
 
     this.addButton = null;
+
+ //--------------------------------------------------
+// Events
+//--------------------------------------------------
+
+this.onAdd = null;
+
+this.onRemove = null;
+
+this.onChanged = null;
+ 
 };
 
 
@@ -91,6 +102,46 @@ UI.StyleRow.prototype.create = function()
     this.addButton.preferredSize.width =
         UI.BUTTON_SIZE;
 
+//--------------------------------------------------
+// Events
+//--------------------------------------------------
+
+var self = this;
+
+this.addButton.onClick = function()
+{
+    if(self.onAdd != null)
+    {
+        self.onAdd(self);
+    }
+};
+
+this.removeButton.onClick = function()
+{
+    if(self.onRemove != null)
+    {
+        self.onRemove(self);
+    }
+};
+
+this.styleDropdown.onChange = function()
+{
+    if(self.onChanged != null)
+    {
+        self.onChanged(self);
+    }
+};
+
+this.probabilityEdit.onChange = function()
+{
+    self.validateProbability();
+
+    if(self.onChanged != null)
+    {
+        self.onChanged(self);
+    }
+};
+ 
     return this.group;
 };
 
@@ -534,7 +585,10 @@ function()
 {
     if(this.group)
     {
-        this.group.parent.remove(this.group);
+if(this.group.parent)
+{
+    this.group.parent.remove(this.group);
+}
         this.group = null;
     }
 };
@@ -559,9 +613,23 @@ function()
 
     this.parent = null;
 
-    this.styleList = null;
+this.onAdd = null;
+
+this.onRemove = null;
+
+this.onChanged = null;
+ 
 };
 
+//==================================================
+// Is Alive
+//==================================================
+
+UI.StyleRow.prototype.isAlive =
+function()
+{
+    return this.group != null;
+};
 
 //==================================================
 // Is Valid
